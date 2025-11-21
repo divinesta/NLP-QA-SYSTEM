@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLM Q&A Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <main class="container">
+        <h1>LLM Question &amp; Answering Portal</h1>
+        <p class="subtitle">
+            Enter a question to see how it is processed and answered by the configured LLM.
+        </p>
+        <form method="POST" class="qa-form">
+            <label for="question">Your Question</label>
+            <textarea id="question" name="question" rows="4" placeholder="Ask anything..."
+                required>{{ question }}</textarea>
+            <button type="submit">Ask</button>
+        </form>
+
+        {% if error %}
+        <div class="card error">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        {% if processed_question %}
+        <section class="card">
+            <h2>Processed Question</h2>
+            <p>{{ processed_question }}</p>
+        </section>
+        <section class="card">
+            <h2>Tokens ({{ tokens|length }})</h2>
+            <p>
+                {% for token in tokens %}
+                <span class="token">{{ token }}</span>
+                {% endfor %}
+            </p>
+        </section>
+        <section class="card">
+            <h2>Answer</h2>
+            <p>{{ answer }}</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+
+</html>
+
